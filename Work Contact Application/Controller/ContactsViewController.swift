@@ -16,6 +16,7 @@ class ContactsViewController: UIViewController {
     @IBOutlet var phoneLabel: UILabel!
     @IBOutlet var projectsTableView: UITableView!
     @IBOutlet var mainInfoTablView: UITableView!
+    @IBOutlet var titleName: UILabel!
     
     var firstName: String = ""
     var lastName: String = ""
@@ -29,7 +30,7 @@ class ContactsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        titleName.text = "\(firstName) \(lastName)"
         infoDataArray = [position, email, phone ?? ""]
 
         
@@ -60,7 +61,9 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsCell", for: indexPath) as! InfoTableViewCell
             if !(infoDataArray[indexPath.row] == "") {
                 cell.infoTitleLabel.text = titles[indexPath.row]
+                cell.infoTitleLabel.font = robotoRegular
                 cell.infoSubtitleLabel.text = infoDataArray[indexPath.row]
+                cell.infoSubtitleLabel.font = openSans
             } else {
                 cell.infoTitleLabel.text = nil
                 cell.infoSubtitleLabel.text = nil
@@ -72,6 +75,11 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == mainInfoTablView {
+            return 60
+        } else if tableView == projectsTableView {
+            return 40
+        }
         return 40
     }
     
@@ -80,6 +88,10 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return "Projects"
         }
         return nil
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

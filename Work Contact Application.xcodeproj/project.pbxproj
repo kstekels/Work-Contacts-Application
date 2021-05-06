@@ -21,6 +21,9 @@
 		1554E7E626428396005EACBB /* Contacts+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1554E7E426428396005EACBB /* Contacts+CoreDataClass.swift */; };
 		1554E7E726428396005EACBB /* Contacts+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1554E7E526428396005EACBB /* Contacts+CoreDataProperties.swift */; };
 		1554E7EB264288AF005EACBB /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1554E7EA264288AF005EACBB /* InfoTableViewCell.swift */; };
+		1554E7EE26433E56005EACBB /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1554E7ED26433E56005EACBB /* Roboto-Regular.ttf */; };
+		1554E7F026433EFE005EACBB /* customFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1554E7EF26433EFE005EACBB /* customFonts.swift */; };
+		1554E7F226434016005EACBB /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1554E7F126434016005EACBB /* OpenSans-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,9 @@
 		1554E7E426428396005EACBB /* Contacts+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contacts+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1554E7E526428396005EACBB /* Contacts+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contacts+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1554E7EA264288AF005EACBB /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
+		1554E7ED26433E56005EACBB /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		1554E7EF26433EFE005EACBB /* customFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customFonts.swift; sourceTree = "<group>"; };
+		1554E7F126434016005EACBB /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +102,7 @@
 		1554E7C12641B125005EACBB /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				1554E7EC26433E1A005EACBB /* Fonts */,
 				1554E7CB2641C51A005EACBB /* Data */,
 				1554E7A92641B0F4005EACBB /* AppDelegate.swift */,
 				1554E7AB2641B0F4005EACBB /* SceneDelegate.swift */,
@@ -121,6 +128,16 @@
 				1554E7CC2641C53A005EACBB /* Employees.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		1554E7EC26433E1A005EACBB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				1554E7ED26433E56005EACBB /* Roboto-Regular.ttf */,
+				1554E7F126434016005EACBB /* OpenSans-Regular.ttf */,
+				1554E7EF26433EFE005EACBB /* customFonts.swift */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,8 +197,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1554E7F226434016005EACBB /* OpenSans-Regular.ttf in Resources */,
 				1554E7B92641B0F8005EACBB /* LaunchScreen.storyboard in Resources */,
 				1554E7B62641B0F8005EACBB /* Assets.xcassets in Resources */,
+				1554E7EE26433E56005EACBB /* Roboto-Regular.ttf in Resources */,
 				1554E7B12641B0F4005EACBB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1554E7AA2641B0F4005EACBB /* AppDelegate.swift in Sources */,
+				1554E7F026433EFE005EACBB /* customFonts.swift in Sources */,
 				1554E7B42641B0F4005EACBB /* Work_Contact_Application.xcdatamodeld in Sources */,
 				1554E7C62641B22B005EACBB /* ContactsTableViewCell.swift in Sources */,
 				1554E7E626428396005EACBB /* Contacts+CoreDataClass.swift in Sources */,
