@@ -5,7 +5,7 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="phone" optional="YES" attributeType="String"/>
         <attribute name="position" attributeType="String"/>
-        <attribute name="projects" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="projects" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="surname" attributeType="String"/>
     </entity>
     <elements>

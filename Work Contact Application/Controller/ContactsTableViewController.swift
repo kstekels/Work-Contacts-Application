@@ -19,6 +19,7 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
     
     // Core Data
     var persons:[Contacts]?
+    var selectedPersons: [Contacts]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +31,7 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
         
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search by name"
-        
+                
         if persons?.count == nil {
             fetchData()
         }
@@ -42,11 +43,23 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
             saveData()
         }
         
+        let iosDeveloper = persons?.filter({ person in
+            return person.position == "IOS"
+        })
+        print("IOS Developers = \(iosDeveloper!.count)")
         
-        print(persons!.count)
+        
+
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchData()
+    }
+    
+    
     //MARK: - Fetch from Core Data
-    func fetchData(_ searchText: String? = nil) {
+    func fetchData(_ searchText: String? = nil, fname: String? = nil, lname: String? = nil) -> [Contacts]? {
         do {
             let request = Contacts.fetchRequest() as NSFetchRequest<Contacts>
             
@@ -63,6 +76,20 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
                 
             }
             
+
+            
+            if let name = fname, let surname = lname {
+                let findPersonPredicate = NSPredicate(format: "name == %@ AND surname == %@", name, surname)
+                request.predicate = findPersonPredicate
+                
+                self.selectedPersons = try context.fetch(request)
+                print("Fetch data for selected row: \(selectedPersons?.count ?? 0)")
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                return selectedPersons
+            }
+            
             // Sort
             let sort = NSSortDescriptor(key: "surname", ascending: true)
             request.sortDescriptors = [sort]
@@ -76,6 +103,7 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
         } catch {
             print("[Error]: Core data Fetch error!")
         }
+        return nil
     }
     
     //MARK: - Save to Core Data
@@ -121,7 +149,12 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        fetchData(searchText)
+        if searchText == ""{
+            fetchData()
+        } else {
+            fetchData(searchText)
+        }
+        
     }
     
     
@@ -173,25 +206,25 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
         
         switch section {
         case 0:
-            print(returnNumberOfRoowsInSection(for: "IOS"))
+//            print(returnNumberOfRoowsInSection(for: "IOS"))
             return returnNumberOfRoowsInSection(for: "IOS")
         case 1:
-            print(returnNumberOfRoowsInSection(for: "ANDROID"))
+//            print(returnNumberOfRoowsInSection(for: "ANDROID"))
             return returnNumberOfRoowsInSection(for: "ANDROID")
         case 2:
-            print(returnNumberOfRoowsInSection(for: "WEB"))
+//            print(returnNumberOfRoowsInSection(for: "WEB"))
             return returnNumberOfRoowsInSection(for: "WEB")
         case 3:
-            print(returnNumberOfRoowsInSection(for: "PM"))
+//            print(returnNumberOfRoowsInSection(for: "PM"))
             return returnNumberOfRoowsInSection(for: "PM")
         case 4:
-            print(returnNumberOfRoowsInSection(for: "TESTER"))
+//            print(returnNumberOfRoowsInSection(for: "TESTER"))
             return returnNumberOfRoowsInSection(for: "TESTER")
         case 5:
-            print(returnNumberOfRoowsInSection(for: "SALES"))
+//            print(returnNumberOfRoowsInSection(for: "SALES"))
             return returnNumberOfRoowsInSection(for: "SALES")
         case 6:
-            print(returnNumberOfRoowsInSection(for: "OTHER"))
+//            print(returnNumberOfRoowsInSection(for: "OTHER"))
             return returnNumberOfRoowsInSection(for: "OTHER")
         default:
             print("Default")
@@ -208,8 +241,10 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
         }
         var counter: Int = 0
         for pos in personsArray {
+//            print("Position = \"\(pos.position!)\" is equal required position \(position) [\(pos.position == position)] // counter = \(counter)")
             if pos.position == position {
                 counter += 1
+//                print("Counter = \(counter)")
             }
         }
         return counter
@@ -219,45 +254,45 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ContactsTableViewCell
         
-        cell.fullNameLabel.text = "\(persons![indexPath.row].surname ?? "Last name") \(persons![indexPath.row].name ?? "First name")"
-        
+//        cell.fullNameLabel.text = "\(persons![indexPath.row].surname ?? "Last name") \(persons![indexPath.row].name ?? "First name")"
         switch indexPath.section {
         case 0:
             let iosDeveloper = persons?.filter({ person in
                 return person.position == "IOS"
             })
-            cell.fullNameLabel.text = "(\(indexPath)) - \(iosDeveloper![indexPath.row].surname ?? "Last name") \(iosDeveloper![indexPath.row].name ?? "First name")"
+            cell.fullNameLabel.text = "\(iosDeveloper![indexPath.row].name!) \(iosDeveloper![indexPath.row].surname!)"
             
         case 1:
             let androidDeveloper = persons?.filter({ person in
                 return person.position == "ANDROID"
             })
-            cell.fullNameLabel.text = "(\(indexPath)) - \(androidDeveloper![indexPath.row].surname ?? "Last name") \(androidDeveloper![indexPath.row].name ?? "First name")"
+            cell.fullNameLabel.text = "\(androidDeveloper![indexPath.row].name!) \(androidDeveloper![indexPath.row].surname!)"
+
         case 2:
             let webDeveloper = persons?.filter({ person in
                 return person.position == "WEB"
             })
-            cell.fullNameLabel.text = "(\(indexPath)) - \(webDeveloper![indexPath.row].surname ?? "Last name") \(webDeveloper![indexPath.row].name ?? "First name")"
+            cell.fullNameLabel.text = "\(webDeveloper![indexPath.row].name!) \(webDeveloper![indexPath.row].surname!)"
         case 3:
             let pm = persons?.filter({ person in
                 return person.position == "PM"
             })
-            cell.fullNameLabel.text = "(\(indexPath)) - \(pm![indexPath.row].surname ?? "Last name") \(pm![indexPath.row].name ?? "First name")"
+            cell.fullNameLabel.text = "\(pm![indexPath.row].name!) \(pm![indexPath.row].surname!)"
         case 4:
             let tester = persons?.filter({ person in
                 return person.position == "TESTER"
             })
-            cell.fullNameLabel.text = "(\(indexPath)) - \(tester![indexPath.row].surname ?? "Last name") \(tester![indexPath.row].name ?? "First name")"
+            cell.fullNameLabel.text = "\(tester![indexPath.row].name!) \(tester![indexPath.row].surname!)"
         case 5:
             let sales = persons?.filter({ person in
                 return person.position == "SALES"
             })
-            cell.fullNameLabel.text = "(\(indexPath)) - \(sales![indexPath.row].surname ?? "Last name") \(sales![indexPath.row].name ?? "First name")"
+            cell.fullNameLabel.text = "\(sales![indexPath.row].name!) \(sales![indexPath.row].surname!)"
         case 6:
             let other = persons?.filter({ person in
                 return person.position == "OTHER"
             })
-            cell.fullNameLabel.text = "(\(indexPath)) - \(other![indexPath.row].surname ?? "Last name") \(other![indexPath.row].name ?? "First name")"
+            cell.fullNameLabel.text = "\(other![indexPath.row].name!) \(other![indexPath.row].surname!)"
         default:
             return cell
         }
@@ -275,13 +310,42 @@ class ContactsTableViewController: UITableViewController, UISearchBarDelegate {
             fatalError("No data in Persons!")
         }
         
-        vc.firstName = person[indexPath.row].name ?? "No data [first]"
-        vc.lastName = person[indexPath.row].surname ?? "No data [second]"
-        vc.email = person[indexPath.row].email ?? ""
-        vc.phone = person[indexPath.row].phone ?? ""
-        vc.position = person[indexPath.row].position ?? "No data [position]"
-        vc.project = person[indexPath.row].projects
+        var personName: String = "", personSurname: String = ""
+        var fetchResult: [Contacts]? = nil
         
+        if let cell = self.tableView.cellForRow(at: indexPath) as? ContactsTableViewCell {
+            let fullname = cell.fullNameLabel.text
+            let indexOfSpace = fullname?.firstIndex(of: " ")
+            let indexAfterSpace = fullname?.index(after: indexOfSpace!)
+            if let index = indexOfSpace {
+                personName = String(fullname![..<index])
+            }
+            if let index = indexAfterSpace {
+                personSurname = String(fullname![index...])
+            }
+            print("First Name: \(personName)\nSecond name: \(personSurname)")
+            fetchResult = fetchData(fname: personName, lname: personSurname)
+
+        }
+                
+//        vc.firstName = person[indexPath.row].name!
+//        vc.lastName = person[indexPath.row].surname!
+//        vc.email = person[indexPath.row].email!
+//        vc.phone = person[indexPath.row].phone ?? ""
+//        vc.position = person[indexPath.row].position!
+//        vc.project = person[indexPath.row].projects
+        
+        vc.firstName = fetchResult![0].name!
+        print(fetchResult![0].name!)
+        vc.lastName = fetchResult![0].surname!
+        print(fetchResult![0].surname!)
+        vc.email = fetchResult![0].email!
+        vc.phone = fetchResult![0].phone ?? ""
+        vc.position = fetchResult![0].position!
+        vc.project = fetchResult![0].projects
+        
+        print(indexPath)
+
         vc.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(vc, animated: true)
     }

@@ -16,7 +16,6 @@ class ContactsViewController: UIViewController {
     @IBOutlet var phoneLabel: UILabel!
     @IBOutlet var projectsTableView: UITableView!
     @IBOutlet var mainInfoTablView: UITableView!
-    @IBOutlet var titleName: UILabel!
     
     var firstName: String = ""
     var lastName: String = ""
@@ -25,14 +24,15 @@ class ContactsViewController: UIViewController {
     var position: String = ""
     var project: [String]?
     
-    let titles = ["POSITION", "E-MAIL", "PHONE NUMBER"]
+    let titles = ["","POSITION", "E-MAIL", "PHONE NUMBER"]
     var infoDataArray: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleName.text = "\(firstName) \(lastName)"
-        infoDataArray = [position, email, phone ?? ""]
-
+                
+        infoDataArray = ["\(firstName) \(lastName)",position, email, phone ?? ""]
+        self.mainInfoTablView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        self.projectsTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
     }
 
